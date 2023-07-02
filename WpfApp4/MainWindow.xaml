@@ -1,21 +1,45 @@
 ﻿<Window x:Class="WpfApp4.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp4"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="Practika" 
+        xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+
+        syncfusionskin:SfSkinManager.Theme="{syncfusionskin:SkinManagerExtension ThemeName=MaterialLight}" Loaded="Window_Loaded" Icon="icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="215"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="10">
-            <Canvas x:Name="canvas" Focusable="True" Background="#FFDE9B9B"/>
+            <Border CornerRadius="10" BorderThickness="1" BorderBrush="#FF0E0E0E">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFCBFFBB" Offset="0"/>
+                        <GradientStop Color="#FFDAA8A8" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Canvas x:Name="canvas" Focusable="True" />
+            </Border>
         </Grid>
-        <Button x:Name="StartB" Content="Старт" Grid.Column="1" HorizontalAlignment="Left" Margin="73,63,0,0" VerticalAlignment="Top" Width="75" Click="StartB_Click"/>
-        <Button x:Name="StopB" Content="Стоп" Grid.Column="1" HorizontalAlignment="Left" Margin="73,88,0,0" VerticalAlignment="Top" Width="75" Click="StopB_Click"/>
+        <Button x:Name="StartB" Content="Старт" Grid.Column="1" HorizontalAlignment="Left" Margin="130,339,0,0" VerticalAlignment="Top" Width="75" Click="StartB_Click"/>
+        <Button x:Name="StopB" Content="Стоп" Grid.Column="1" HorizontalAlignment="Left" Margin="130,363,0,0" VerticalAlignment="Top" Width="75" Click="StopB_Click"/>
+        <Button x:Name="RestartB" Content="Перезапуск" Grid.Column="1" HorizontalAlignment="Left" Margin="130,389,0,0" VerticalAlignment="Top" Width="75" Click="RestartB_Click"/>
+        <Ellipse Grid.Column="1" Fill="Red" HorizontalAlignment="Left" Height="20" Margin="10,15,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
+        <Ellipse Grid.Column="1" Fill="Blue" HorizontalAlignment="Left" Height="20" Margin="10,40,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
+        <Ellipse Grid.Column="1" Fill="Yellow" HorizontalAlignment="Left" Height="20" Margin="10,65,0,0" Stroke="Black" VerticalAlignment="Top" Width="20"/>
+        <Label Content="Хищников" Grid.Column="1" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <Label Content="Травоядные" Grid.Column="1" HorizontalAlignment="Left" Margin="35,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <Label Content="Родительские" Grid.Column="1" HorizontalAlignment="Left" Margin="35,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <Label x:Name="PredatorL" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="138,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <Label x:Name="CellL" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="138,36,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <Label x:Name="HerbivoreL" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="138,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327"/>
+        <TextBox x:Name="CointFoodTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="85,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="CointFoodTB_TextChanged" Text="50"/>
+        <Label Content="Кол-во еды" Grid.Column="1" HorizontalAlignment="Left" Margin="0,106,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="CointCellsTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="85,137,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10"/>
+        <Label Content="Кол-во клеток" Grid.Column="1" HorizontalAlignment="Left" Margin="0,137,0,0" VerticalAlignment="Top"/>
+        <Label Content="Скорость" Grid.Column="1" HorizontalAlignment="Left" Margin="0,168,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="SpeedTimerTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="85,172,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="10" TextChanged="SpeedTimerTB_TextChanged"/>
 
     </Grid>
 </Window>
