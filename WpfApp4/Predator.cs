@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace WpfApp4
 {
@@ -12,17 +13,24 @@ namespace WpfApp4
             : base(x, y, directionX, directionY, speed, size)
         {
             IsPredator = true;
+            maximalSize = 40;
         }
 
-        protected new int HealthLossRate = 1;
+        protected new int HealthLossRate = 5;
 
+        public new void PrintInfo(Label health, Label speed, Label className)
+        {
+            health.Content = this.Health.ToString();
+            speed.Content = this.Speed.ToString();
+            className.Content = "Хищник";
+        }
 
         public new Cell Divide()
         {
             Cell newCell;
 
             // Шанс, что новая клетка станет травоядной или хищником
-            if (random.Next(0, 2) == 0)
+            if (random.Next(0, 100) < 20 && this.Health < StandartHealth / 2)
             {
                 newCell = new Cell(X + Size, Y + Size, DirectionX, DirectionY, random.Next(Speed - 5, Speed + 5), random.Next(Size - 5, Size + 5));
             }
@@ -69,7 +77,7 @@ namespace WpfApp4
             Health -= HealthLossRate;
         }
 
-        public void Eat(Cell cell)
+        public new void Eat(Cell cell)
         {
             // При съедании другой клетки, хищник получает ее здоровье
             Health += cell.Health;

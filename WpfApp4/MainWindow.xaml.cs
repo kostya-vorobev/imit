@@ -15,6 +15,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Syncfusion.SfSkinManager;
+using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+
 
 namespace WpfApp4
 {
@@ -27,17 +31,56 @@ namespace WpfApp4
         private List<Food> foods = new List<Food>();
         private Random random = new Random();
         private DispatcherTimer gameTimer;
+        private ChartValues<ObservablePoint> herbivoreValues;
+        private ChartValues<ObservablePoint> predatorValues;
+        private ChartValues<ObservablePoint> cellValues;
+        private int countTimer = 0;
+        private SeriesCollection seriesCollection;
 
         public MainWindow()
         {
 
             InitializeComponent();
+            herbivoreValues = new ChartValues<ObservablePoint>();
+            predatorValues = new ChartValues<ObservablePoint>();
+            cellValues = new ChartValues<ObservablePoint>();
 
+            // Создаем серии и добавляем их в seriesCollection
+
+            var cellSeries = new LineSeries
+            {
+                Title = "Всеядные",
+                Values = cellValues,
+                Stroke = Brushes.Blue
+            };
+            var predatorSeries = new LineSeries
+            {
+                Title = "Хищники",
+                Values = predatorValues,
+                Stroke = Brushes.Red
+            };
+            var herbivoreSeries = new LineSeries
+            {
+                Title = "Травоядные",
+                Values = herbivoreValues,
+                Stroke = Brushes.Yellow
+            };
+
+
+            seriesCollection = new SeriesCollection
+    {
+        herbivoreSeries,
+        predatorSeries,
+        cellSeries
+    };
+
+            // Устанавливаем seriesCollection как источник данных для графика
+            chart.Series = seriesCollection;
         }
 
         private void StartGame()
         {
-            if (foods.Count == 0)
+            if (foods.Count == 0 && cells.Count == 0)
             {
                 int countObjects = Convert.ToInt32(CointCellsTB.Text);
                 // Создаем несколько случайных клеток
@@ -50,10 +93,17 @@ namespace WpfApp4
                 // Создаем несколько объектов пищи
                 for (int i = 0; i < countObjects; i++)
                 {
-                    Food food = new Food(random.Next(10, (int)canvas.ActualWidth), random.Next(10, (int)canvas.ActualHeight), random.Next(5, 20));
+                    Food food = new Food(random.Next(10, (int)canvas.ActualWidth-10), random.Next(10, (int)canvas.ActualHeight-10), random.Next(5, 20));
                     foods.Add(food);
                 }
             }
+
+
+        }
+        private void StartTimer()
+        {
+
+
             int speedTimer = Convert.ToInt32(SpeedTimerTB.Text);
             if (SpeedTimerTB.Text == null)
             {
@@ -160,29 +210,35 @@ namespace WpfApp4
                     i--;
                 }
             }
-
-            // Добавление новых клеток
-            for (int i = 0; i < cells.Count; i++)
+            int maxCountCells = 0;
+            if (CointFoodTB.Text != "")
             {
-                if (random.Next(0, 100) < 3)
+                maxCountCells = Convert.ToInt32(MaxCountCellsTB.Text);
+            }
+
+            if (cells.Count < maxCountCells)
+                // Добавление новых клеток
+                for (int i = 0; i < cells.Count; i++)
                 {
-                    if (cells[i].IsHerbivore)
+                    if (random.Next(0, 100) < 3)
                     {
-                        Cell newCell = ((Herbivore)cells[i]).Divide();
-                        cells.Add(newCell);
-                    }
-                    else if (cells[i].IsPredator)
-                    {
-                        Cell newCell = ((Predator)cells[i]).Divide();
-                        cells.Add(newCell);
-                    }
-                    else
-                    {
-                        Cell newCell = cells[i].Divide();
-                        cells.Add(newCell);
+                        if (cells[i].IsHerbivore)
+                        {
+                            Cell newCell = ((Herbivore)cells[i]).Divide();
+                            cells.Add(newCell);
+                        }
+                        else if (cells[i].IsPredator)
+                        {
+                            Cell newCell = ((Predator)cells[i]).Divide();
+                            cells.Add(newCell);
+                        }
+                        else
+                        {
+                            Cell newCell = cells[i].Divide();
+                            cells.Add(newCell);
+                        }
                     }
                 }
-            }
             int countFood = 0;
             if (CointFoodTB.Text != "")
             {
@@ -195,13 +251,17 @@ namespace WpfApp4
                 int countAddFood = random.Next(0, countFood - foods.Count);
                 for (int i = 0; i < countAddFood / 4; i++)
                 {
-                    Food food = new Food(random.Next(10, (int)canvas.ActualWidth), random.Next(10, (int)canvas.ActualHeight), random.Next(5, 20));
+                    Food food = new Food(random.Next(10, (int)canvas.ActualWidth - 10), random.Next(10, (int)canvas.ActualHeight - 10), random.Next(5, 20));
                     foods.Add(food);
                 }
             }
+            if (countTimer % 10 == 0)
                 ConutCells();
             // Обновление отображения
             UpdateDisplay();
+            if (countTimer % 10 == 0)
+                UpdateChart();
+            countTimer++;
         }
         private void ConutCells()
         {
@@ -219,15 +279,59 @@ namespace WpfApp4
                 {
                     cellsCount++;
                 }
-                HerbivoreL.Content = herbivoreCount.ToString();
-                PredatorL.Content = predatorCount.ToString();
-                CellL.Content = cellsCount.ToString();
+
+            }
+            HerbivoreL.Content = herbivoreCount.ToString();
+            PredatorL.Content = predatorCount.ToString();
+            CellL.Content = cellsCount.ToString();
+        }
+        private void UpdateChart()
+        {
+            if (seriesCollection == null)
+            {
+                return;
+            }
+
+            // Проверяем наличие серий в коллекции
+            if (seriesCollection.Count < 3)
+            {
+                return;
+            }
+
+            // Проверяем наличие значений в каждой серии
+            if (seriesCollection[0].Values == null || seriesCollection[1].Values == null || seriesCollection[2].Values == null)
+            {
+                return;
+            }
+
+            seriesCollection[0].Values.Add(new ObservablePoint((double)countTimer, Convert.ToDouble(HerbivoreL.Content)));
+            seriesCollection[1].Values.Add(new ObservablePoint((double)countTimer, Convert.ToDouble(PredatorL.Content)));
+            seriesCollection[2].Values.Add(new ObservablePoint((double)countTimer, Convert.ToDouble(CellL.Content)));
+
+            // Ограничиваем количество точек в графике, если нужно
+            const int maxDataPoints = 15; // Максимальное количество точек в графике
+            if (seriesCollection[0].Values.Count > maxDataPoints)
+            {
+                // Удаляем старые точки, чтобы оставить только последние maxDataPoints точек
+                foreach (var series in seriesCollection)
+                {
+                    while (series.Values.Count > maxDataPoints)
+                    {
+                        series.Values.RemoveAt(0);
+                    }
+                }
             }
         }
 
+
+
         private void StopGame()
         {
-            gameTimer.Stop();
+            if (gameTimer != null)
+            {
+                gameTimer.Stop();
+            }
+
         }
 
         private void UpdateDisplay()
@@ -254,9 +358,38 @@ namespace WpfApp4
                 cellEllipse.Width = cell.Size;
                 cellEllipse.Height = cell.Size;
                 cellEllipse.Fill = cell.IsPredator ? Brushes.Red : cell.IsHerbivore ? Brushes.Yellow : Brushes.Blue;
+                cellEllipse.MouseLeftButtonDown += CellEllipse_MouseLeftButtonDown;
                 Canvas.SetLeft(cellEllipse, cell.X - cell.Size / 2);
                 Canvas.SetTop(cellEllipse, cell.Y - cell.Size / 2);
                 canvas.Children.Add(cellEllipse);
+            }
+        }
+
+        private void CellEllipse_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Получаем нажатый элемент (ellipse)
+            Ellipse cellEllipse = (Ellipse)sender;
+
+            // Ищем клетку, соответствующую нажатому элементу
+            Cell selectedCell = cells.FirstOrDefault(cell =>
+                Canvas.GetLeft(cellEllipse) == cell.X - cell.Size / 2 &&
+                Canvas.GetTop(cellEllipse) == cell.Y - cell.Size / 2);
+
+            // Если найдена клетка, выводим информацию о ней
+            if (selectedCell != null)
+            {
+                if (selectedCell.IsHerbivore)
+                {
+                    ((Herbivore)selectedCell).PrintInfo(HealthL, SpeedL, ClassName);
+
+                }
+                else if (selectedCell.IsPredator)
+                {
+                    ((Predator)selectedCell).PrintInfo(HealthL, SpeedL, ClassName);
+
+                }
+                else
+                    selectedCell.PrintInfo(HealthL, SpeedL, ClassName);
             }
         }
 
@@ -264,6 +397,7 @@ namespace WpfApp4
         {
             // Запускаем игру
             StartGame();
+            StartTimer();
         }
 
         private void StopB_Click(object sender, RoutedEventArgs e)
@@ -305,19 +439,99 @@ namespace WpfApp4
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            SfSkinManager.ApplyStylesOnApplication = true;
 
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddCellB_Click(object sender, RoutedEventArgs e)
+        {
+
+            StopGame();
+            int countObjects = Convert.ToInt32(CointCellsTB.Text);
+            // Создаем несколько случайных клеток
+            for (int i = 0; i < 10; i++)
+            {
+                Cell cell = new Cell(random.Next(10, (int)canvas.ActualWidth), random.Next(10, (int)canvas.ActualHeight), random.Next(10, 50), random.Next(10, 50), random.Next(10, 20), random.Next(10, 50));
+                cells.Add(cell);
+            }
+            StartTimer();
+
+        }
+
+        private void AddPredatorB_Click(object sender, RoutedEventArgs e)
+        {
+            StopGame();
+            for (int i = 0; i < 10; i++)
+            {
+                Predator predator = new Predator(random.Next(10, (int)canvas.ActualWidth), random.Next(10, (int)canvas.ActualHeight), random.Next(10, 50), random.Next(10, 50), random.Next(10, 20), random.Next(10, 50));
+                cells.Add(predator);
+            }
+            StartTimer();
+        }
+
+        private void AddHerbivoreB_Click(object sender, RoutedEventArgs e)
+        {
+            StopGame();
+            for (int i = 0; i < 10; i++)
+            {
+                Herbivore herbivore = new Herbivore(random.Next(10, (int)canvas.ActualWidth), random.Next(10, (int)canvas.ActualHeight), random.Next(10, 50), random.Next(10, 50), random.Next(10, 20), random.Next(10, 50));
+                cells.Add(herbivore);
+            }
+            StartTimer();
+        }
+
+        private void DeleteCellB_Click(object sender, RoutedEventArgs e)
+        {
+            StopGame();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].IsPredator == false && cells[i].IsHerbivore == false)
+                {
+                    cells.RemoveAt(i);
+                    if (i > 0)
+                        i--;
+                }
+            }
+            StartTimer();
+        }
+
+        private void DeletePredatorB_Click(object sender, RoutedEventArgs e)
+        {
+            StopGame();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].IsPredator)
+                {
+                    cells.RemoveAt(i);
+                    if (i > 0)
+                        i--;
+                }
+            }
+            StartTimer();
+        }
+
+        private void DeleteHerbivoreB_Click(object sender, RoutedEventArgs e)
+        {
+            StopGame();
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (cells[i].IsHerbivore)
+                {
+                    cells.RemoveAt(i);
+                    if (i > 0)
+                        i--;
+                }
+            }
+            StartTimer();
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
