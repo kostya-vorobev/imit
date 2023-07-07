@@ -4,10 +4,15 @@ namespace WpfApp4
 {
     public class Food
     {
-        public int X { get; }
-        public int Y { get; }
-        public int Nutrition { get; }
-        public int Size { get; }
+        private int x;
+        private int y;
+        private int nutrition;
+        private int size;
+
+        public int X { get => x; set => x = value; }
+        public int Y { get => y; set => y = value; }
+        public int Size { get => size; set => size = value; }
+        public int Nutrition { get => nutrition; set => nutrition = value; }
 
         public Food(int x, int y, int size)
         {
@@ -16,6 +21,8 @@ namespace WpfApp4
             Size = size;
             Nutrition = size * 2;
         }
+
+
 
         public bool Touches(Cell cell)
         {

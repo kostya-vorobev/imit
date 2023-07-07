@@ -14,9 +14,9 @@ namespace WpfApp4
         {
             IsPredator = true;
             maximalSize = 40;
+            healthLossRate = 5;
         }
 
-        protected new int HealthLossRate = 5;
 
         public new void PrintInfo(Label health, Label speed, Label className)
         {
@@ -74,7 +74,7 @@ namespace WpfApp4
             }
 
             // потеря здоровья
-            Health -= HealthLossRate;
+            Health -= this.healthLossRate;
         }
 
         public new void Eat(Cell cell)

@@ -19,11 +19,15 @@ namespace WpfApp4
         protected int strength;
         protected bool isPredator;
         protected bool isHerbivore;
-        private int standartHealth;
+        protected int standartHealth;
         protected Random random = new Random();
-        protected int HealthLossRate = 10;
+        protected int healthLossRate = 10;
         protected int minimalSize = 10;
         protected int minimalSpeed = 10;
+        protected int maximalSize = 50;
+        private int predatorСhanсe = 0;
+        private int herbivoreСhanсe = 0;
+
 
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
@@ -35,11 +39,9 @@ namespace WpfApp4
         public int Strength { get => strength; set => strength = value; }
         public bool IsPredator { get => isPredator; set => isPredator = value; }
         public bool IsHerbivore { get => isHerbivore; set => isHerbivore = value; }
-        public int StandartHealth { get => standartHealth; set => standartHealth = value; }
+        public int StandartHealth { get => standartHealth;}
 
-        protected int maximalSize = 50;
-        private int predatorСhanсe = 0;
-        private int herbivoreСhanсe = 0;
+
 
         public Cell(int x, int y, int directionX, int directionY, int speed, int size)
         {
@@ -56,9 +58,9 @@ namespace WpfApp4
             else Size = minimalSize;
             Health = 500;
             Strength = 10;
-            StandartHealth = Health;
+            this.standartHealth = Health;
         }
-        public void IsPosition(int actualWidht, int actualHeight)
+        protected void IsPosition(int actualWidht, int actualHeight)
         {
             // новые кооржинаты клетки
             X += DirectionX;
@@ -113,7 +115,7 @@ namespace WpfApp4
             }
 
             // потеря здоровья
-            Health -= HealthLossRate;
+            Health -= this.healthLossRate;
         }
        
         public  bool Touches(Cell cell)

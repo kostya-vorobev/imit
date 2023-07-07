@@ -42,12 +42,12 @@
         <Label x:Name="CellL" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="142,255,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327" Height="24" Width="128"/>
         <Label x:Name="HerbivoreL" Content="0" Grid.Column="1" HorizontalAlignment="Left" Margin="142,281,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.526,0.327" Height="24" Width="128"/>
         <Label Content="Кол-во еды" Grid.Column="1" HorizontalAlignment="Left" Margin="4,93,0,0" VerticalAlignment="Top" Height="24" Width="73"/>
-        <TextBox x:Name="CointCellsTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=CountCellSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="Кол-во клеток" Grid.Column="1" HorizontalAlignment="Left" Margin="4,124,0,0" VerticalAlignment="Top" Height="24" Width="88"/>
-        <Label Content="Скорость" Grid.Column="1" HorizontalAlignment="Left" Margin="4,155,0,0" VerticalAlignment="Top" Height="24" Width="61"/>
-        <TextBox x:Name="SpeedTimerTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=SpeedSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="SpeedTimerTB_TextChanged"/>
-        <TextBox x:Name="MaxCountCellsTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,193,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=CountCellMaxSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="Кол-во клеток" Grid.Column="1" HorizontalAlignment="Left" Margin="4,193,0,0" VerticalAlignment="Top" Height="24" Width="88"/>
+        <TextBox x:Name="CointCellsTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=CountCellSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Начальное &#xD;&#xA;кол-во клеток" Grid.Column="1" HorizontalAlignment="Left" Margin="4,148,0,0" VerticalAlignment="Top" Height="36" Width="88"/>
+        <Label Content="Скорость" Grid.Column="1" HorizontalAlignment="Left" Margin="4,126,0,0" VerticalAlignment="Top" Height="24" Width="61"/>
+        <TextBox x:Name="SpeedTimerTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,126,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=SpeedSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextChanged="SpeedTimerTB_TextChanged"/>
+        <TextBox x:Name="MaxCountCellsTB" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="234,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="{Binding ElementName=CountCellMaxSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Максимальное &#xD;&#xA;кол-во клеток" Grid.Column="1" HorizontalAlignment="Left" Margin="4,184,0,0" VerticalAlignment="Top" Height="40" Width="92"/>
         <Label Content="Здоровье: " HorizontalAlignment="Left" Margin="4,39,0,0" VerticalAlignment="Top" Grid.Column="1" FontWeight="Bold" Height="24" Width="73"/>
         <Label Content="Скорость: " HorizontalAlignment="Left" Margin="4,68,0,0" VerticalAlignment="Top" Grid.Column="1" FontWeight="Bold" Height="24" Width="71" RenderTransformOrigin="0.5,0.5"/>
         <Label Content="Вид: " HorizontalAlignment="Left" Margin="4,10,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="2.194,0.583" FontWeight="Bold" Height="24" Width="39"/>
@@ -64,9 +64,9 @@
         </StackPanel>
         <Slider x:Name="CountFoodSlide" Grid.Column="1" HorizontalAlignment="Left" Margin="89,97,0,0" VerticalAlignment="Top" Width="140" Maximum="200" Height="22" IsSnapToTickEnabled="True" LargeChange="200" Value="200" SmallChange="1"/>
         <TextBox x:Name="CointFoodTB" Grid.Column="1" HorizontalAlignment="Left" Text="{Binding ElementName=CountFoodSlide, Path=Value, UpdateSourceTrigger=PropertyChanged}"   Height="24" Margin="234,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" />
-        <Slider x:Name="CountCellSlide" Grid.Column="1" HorizontalAlignment="Left" Margin="89,124,0,0" VerticalAlignment="Top" Width="140" Height="22" IsSnapToTickEnabled="True" LargeChange="10" Value="10" SmallChange="1"/>
-        <Slider x:Name="SpeedSlide" Grid.Column="1" HorizontalAlignment="Left" IsDirectionReversed="True" Margin="89,155,0,0" VerticalAlignment="Top" Width="140" Maximum="100" Height="22" IsSnapToTickEnabled="True" LargeChange="20" Value="20" SmallChange="1" Minimum="20"/>
-        <Slider x:Name="CountCellMaxSlide" Grid.Column="1" HorizontalAlignment="Left"  Margin="89,193,0,0" VerticalAlignment="Top" Width="140" Maximum="200" Height="22" IsSnapToTickEnabled="True" LargeChange="200" Value="200" SmallChange="1"/>
+        <Slider x:Name="CountCellSlide" Grid.Column="1" HorizontalAlignment="Left" Margin="89,155,0,0" VerticalAlignment="Top" Width="140" Height="22" IsSnapToTickEnabled="True" LargeChange="10" Value="10" SmallChange="1"/>
+        <Slider x:Name="SpeedSlide" Grid.Column="1" HorizontalAlignment="Left" IsDirectionReversed="True" Margin="89,126,0,0" VerticalAlignment="Top" Width="140" Maximum="100" Height="22" IsSnapToTickEnabled="True" LargeChange="20" Value="20" SmallChange="1" Minimum="20"/>
+        <Slider x:Name="CountCellMaxSlide" Grid.Column="1" HorizontalAlignment="Left"  Margin="89,184,0,0" VerticalAlignment="Top" Width="140" Maximum="200" Height="22" IsSnapToTickEnabled="True" LargeChange="200" Value="200" SmallChange="1"/>
         <lvc:CartesianChart x:Name="chart" Margin="0,310,10,170" Grid.Column="1"   Series="{Binding SeriesCollection}" Grid.RowSpan="2"/>
     </Grid>
 </Window>

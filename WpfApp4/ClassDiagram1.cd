@@ -3,19 +3,19 @@
   <Class Name="WpfApp4.Predator">
     <Position X="4.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAEQAAACAAAEAAAAAAAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAEQAAACAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Predator.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WpfApp4.Food">
     <Position X="2.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAAAAAYAA=</HashCode>
+      <HashCode>BAAAAAQAAAAAgAAAAIAAAAAAIAAAAAAAAABgAAAAYAA=</HashCode>
       <FileName>Food.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WpfApp4.Herbivore">
-    <Position X="2.5" Y="3.75" Width="1.5" />
+    <Position X="2.25" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAEQAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Herbivore.cs</FileName>
@@ -23,17 +23,13 @@
   </Class>
   <Class Name="WpfApp4.Cell">
     <Position X="0.5" Y="0.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-      <Compartment Name="Properties" Collapsed="true" />
-    </Compartments>
     <TypeIdentifier>
-      <HashCode>AABACCgAEQAAgCEAAMABAAABIABIGSAAQBxgAABAYAg=</HashCode>
+      <HashCode>CABACCgAkQAAgiEAAMABAAABIABAGSAAQBxgAEBAYAg=</HashCode>
       <FileName>Cell.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="WpfApp4.MainWindow">
-    <Position X="6.75" Y="0.5" Width="1.5" />
+    <Position X="7.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAIAAAkAQgAgAEIQAAAguBAAAAKGAAkUBQgAAARE=</HashCode>
       <FileName>MainWindow.xaml.cs</FileName>
